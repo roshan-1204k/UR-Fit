@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>About - UrFit</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .about-content {
+            width: 100%;
+            min-height: 100vh;
+            padding: 6rem 2rem 2rem 2rem;
+            background: #000;
+        }
+
+        .about-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .about-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+            border-color: #00bfff;
+        }
+
+        .about-icon {
+            font-size: 3rem;
+            color: #00bfff;
+            margin-bottom: 1rem;
+        }
+
+        .about-card h2 {
+            color: #00bfff;
+            margin-bottom: 1rem;
+        }
+
+        .about-card p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .team-section {
+            margin-top: 4rem;
+        }
+
+        .team-member {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+        }
+
+        .member-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 3px solid #00bfff;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: #00bfff;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="icon">
+            <h2 class="logo">UrFit</h2>
+        </div>
+
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="workouts.html">WORKOUTS</a></li>
+                <li><a href="#">NUTRATION</a></li>
+                <li><a href="#">COMMUNITY</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+            </ul>
+        </div>
+
+        <div class="search">
+            <input class="srch" type="search" name="" placeholder="Type To text">
+            <a href="#"> <button class="btn">Search</button></a>
+        </div>
+    </div>
+
+    <div class="about-content">
+        <h1 style="color: #00bfff; font-size: 2.5rem; text-align: center; margin-bottom: 2rem;">
+            About UrFit
+        </h1>
+
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="about-icon">🎯</div>
+                <h2>Our Mission</h2>
+                <p>To provide accessible, high-quality fitness guidance to everyone, regardless of their experience level or background. We believe in making fitness achievable and enjoyable for all.</p>
+            </div>
+
+            <div class="about-card">
+                <div class="about-icon">💪</div>
+                <h2>What We Offer</h2>
+                <p>Comprehensive workout programs, nutrition guidance, and a supportive community. Our platform is designed to help you achieve your fitness goals effectively and safely.</p>
+            </div>
+
+            <div class="about-card">
+                <div class="about-icon">🌟</div>
+                <h2>Our Values</h2>
+                <p>We prioritize authenticity, inclusivity, and scientific accuracy. Every program is crafted with care and backed by proven fitness principles.</p>
+            </div>
+        </div>
+
+        <div class="team-section">
+            <h2 style="color: #00bfff; font-size: 2rem; text-align: center; margin-bottom: 2rem;">
+                Our Team
+            </h2>
+
+            <div class="about-grid">
+                <div class="team-member">
+                    <img src="trainer1.jpg" alt="Fitness Trainer" class="member-img">
+                    <h3 style="color: #00bfff;">John Doe</h3>
+                    <p>Head Trainer</p>
+                    <p style="color: #ccc; margin: 1rem 0;">Certified fitness professional with 10+ years of experience in strength training and nutrition.</p>
+                    <div class="social-links">
+                        <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
+                        <a href="#"><ion-icon name="logo-twitter"></ion-icon></a>
+                        <a href="#"><ion-icon name="logo-linkedin"></ion-icon></a>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img src="trainer2.jpg" alt="Yoga Instructor" class="member-img">
+                    <h3 style="color: #00bfff;">Jane Smith</h3>
+                    <p>Yoga Instructor</p>
+                    <p style="color: #ccc; margin: 1rem 0;">Experienced yoga instructor specializing in mindfulness and flexibility training.</p>
+                    <div class="social-links">
+                        <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
+                        <a href="#"><ion-icon name="logo-twitter"></ion-icon></a>
+                        <a href="#"><ion-icon name="logo-linkedin"></ion-icon></a>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <img src="trainer3.jpg" alt="Nutrition Expert" class="member-img">
+                    <h3 style="color: #00bfff;">Mike Johnson</h3>
+                    <p>Nutrition Expert</p>
+                    <p style="color: #ccc; margin: 1rem 0;">Certified nutritionist helping clients achieve their goals through proper diet planning.</p>
+                    <div class="social-links">
+                        <a href="#"><ion-icon name="logo-instagram"></ion-icon></a>
+                        <a href="#"><ion-icon name="logo-twitter"></ion-icon></a>
+                        <a href="#"><ion-icon name="logo-linkedin"></ion-icon></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+</body>
+</html> 

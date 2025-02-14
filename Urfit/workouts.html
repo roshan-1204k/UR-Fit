@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrFit - Workouts</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Adjust main-content positioning and background */
+        .main-content {
+            width: 100%;
+            min-height: 100vh;
+            padding: 6rem 2rem 2rem 2rem;
+            background: #000;
+        }
+
+        /* Keep your existing workout page styles */
+        .workout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .workout-card {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            text-align: center;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+        }
+
+        .workout-card:hover {
+            transform: translateY(-10px);
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+            border-color: #00bfff;
+        }
+
+        .workout-icon {
+            font-size: 3rem;
+            color: #00bfff;
+            margin-bottom: 1rem;
+        }
+
+        .workout-card h2 {
+            color: #00bfff;
+            margin-bottom: 1rem;
+        }
+
+        .workout-card p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .start-btn {
+            background: #00bfff;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .start-btn:hover {
+            background: #0099cc;
+        }
+
+        .timer-section {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: #000;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+        }
+
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .timer-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2rem;
+            border-radius: 15px;
+            min-width: 300px;
+            border: 1px solid rgba(0, 191, 255, 0.3);
+        }
+
+        .timer-display {
+            font-size: 3.5rem;
+            font-family: monospace;
+            color: #00bfff;
+            margin: 1rem 0;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .timer-btn {
+            background: #00bfff;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .timer-btn:hover {
+            background: #0099cc;
+        }
+
+        .timer-btn.reset {
+            background: #ff4444;
+        }
+
+        .timer-btn.reset:hover {
+            background: #cc0000;
+        }
+
+        .workout-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid #00bfff;
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+            z-index: 1000;
+            animation: popupFade 0.3s ease-out;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 999;
+        }
+
+        @keyframes popupFade {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .popup-timer {
+            font-size: 2.5rem;
+            font-family: monospace;
+            color: #00bfff;
+            margin: 1rem 0;
+        }
+
+        .workout-animation {
+            font-size: 4rem;
+            margin: 1rem 0;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #ff4444;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="icon">
+            <h2 class="logo">UrFit</h2>
+        </div>
+
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="workouts.html">WORKOUTS</a></li>
+                <li><a href="#">NUTRATION</a></li>
+                <li><a href="community.html">COMMUNITY</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+            </ul>
+        </div>
+
+        <div class="search">
+            <input class="srch" type="search" name="" placeholder="Type To text">
+            <a href="#"> <button class="btn">Search</button></a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1 style="color: #00bfff; font-size: 2.5rem; text-align: center; margin-bottom: 2rem;">
+            Choose Your Workout
+        </h1>
+        
+        <div class="workout-grid">
+            <div class="workout-card">
+                <div class="workout-icon">🧘‍♀️</div>
+                <h2>Yoga</h2>
+                <p>Improve flexibility, strength, and mental clarity with our guided yoga sessions. Perfect for all skill levels.</p>
+                <button class="start-btn">Start Practice</button>
+            </div>
+
+            <div class="workout-card">
+                <div class="workout-icon">🚴‍♂️</div>
+                <h2>Cycling</h2>
+                <p>High-intensity cardio workouts on the bike. Burn calories and build endurance with our cycling programs.</p>
+                <button class="start-btn">Start Riding</button>
+            </div>
+
+            <div class="workout-card">
+                <div class="workout-icon">🏃‍♂️</div>
+                <h2>Cardio</h2>
+                <p>Get your heart pumping with our varied cardio workouts. Perfect for weight loss and cardiovascular health.</p>
+                <button class="start-btn">Start Cardio</button>
+            </div>
+
+            <div class="workout-card">
+                <div class="workout-icon">💪</div>
+                <h2>Squats</h2>
+                <p>Build lower body strength and power with our squat programs. From beginners to advanced athletes.</p>
+                <button class="start-btn">Start Training</button>
+            </div>
+
+            <div class="workout-card">
+                <div class="workout-icon">🏋️‍♂️</div>
+                <h2>Push-Ups</h2>
+                <p>Develop upper body strength and core stability with our progressive push-up routines.</p>
+                <button class="start-btn">Start Challenge</button>
+            </div>
+
+            <div class="workout-card">
+                <div class="workout-icon">🏋️</div>
+                <h2>Deadlift</h2>
+                <p>Master the king of all exercises. Build total body strength and power with proper deadlift technique.</p>
+                <button class="start-btn">Start Lifting</button>
+            </div>
+
+            <div class="workout-card">
+                <div class="workout-icon">💪</div>
+                <h2>Chest Press</h2>
+                <p>Build a stronger chest and triceps with our comprehensive chest press program for all levels.</p>
+                <button class="start-btn">Start Pressing</button>
+            </div>
+
+            <div class="workout-card">
+                <div class="workout-icon">🦵</div>
+                <h2>Leg Press</h2>
+                <p>Develop powerful legs and glutes with our guided leg press workouts and progression plans.</p>
+                <button class="start-btn">Start Training</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="timer-section">
+        <h2 style="color: #00bfff; font-size: 2rem; margin-bottom: 2rem;">Workout Timers</h2>
+        
+        <div class="timer-container">
+            <div class="timer-box">
+                <h3>Stopwatch</h3>
+                <div id="stopwatch" class="timer-display">00:00:00</div>
+                <div class="timer-controls">
+                    <button id="startStopwatch" class="timer-btn">Start</button>
+                    <button id="resetStopwatch" class="timer-btn reset">Reset</button>
+                </div>
+            </div>
+
+            <div class="timer-box">
+                <h3>Timer</h3>
+                <div id="timer" class="timer-display">00:00:00</div>
+                <div class="timer-controls">
+                    <input type="number" id="timerInput" placeholder="Enter minutes" min="1" 
+                           style="padding: 0.5rem; border-radius: 5px; border: none; margin-right: 1rem;">
+                    <button id="startTimer" class="timer-btn">Start</button>
+                    <button id="resetTimer" class="timer-btn reset">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <div class="workout-popup" id="workoutPopup">
+        <button class="close-popup" onclick="closePopup()">×</button>
+        <div class="workout-animation" id="workoutEmoji"></div>
+        <h2 id="workoutTitle" style="color: #00bfff; margin-bottom: 1rem;"></h2>
+        <p id="workoutInstructions" style="color: #ccc; margin-bottom: 1rem;"></p>
+        <div class="popup-timer" id="popupTimer">00:00:00</div>
+    </div>
+
+    <script>
+        // Stopwatch functionality
+        let stopwatchInterval;
+        let stopwatchSeconds = 0;
+        let stopwatchRunning = false;
+
+        document.getElementById('startStopwatch').addEventListener('click', function() {
+            if (!stopwatchRunning) {
+                this.textContent = 'Pause';
+                stopwatchRunning = true;
+                stopwatchInterval = setInterval(updateStopwatch, 1000);
+            } else {
+                this.textContent = 'Start';
+                stopwatchRunning = false;
+                clearInterval(stopwatchInterval);
+            }
+        });
+
+        document.getElementById('resetStopwatch').addEventListener('click', function() {
+            clearInterval(stopwatchInterval);
+            stopwatchSeconds = 0;
+            stopwatchRunning = false;
+            document.getElementById('startStopwatch').textContent = 'Start';
+            document.getElementById('stopwatch').textContent = '00:00:00';
+        });
+
+        function updateStopwatch() {
+            stopwatchSeconds++;
+            const hours = Math.floor(stopwatchSeconds / 3600);
+            const minutes = Math.floor((stopwatchSeconds % 3600) / 60);
+            const seconds = stopwatchSeconds % 60;
+            document.getElementById('stopwatch').textContent = 
+                `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        }
+
+        // Timer functionality
+        let timerInterval;
+        let timerSeconds = 0;
+        let timerRunning = false;
+
+        document.getElementById('startTimer').addEventListener('click', function() {
+            if (!timerRunning) {
+                const minutes = parseInt(document.getElementById('timerInput').value) || 0;
+                if (minutes > 0) {
+                    timerSeconds = minutes * 60;
+                    this.textContent = 'Pause';
+                    timerRunning = true;
+                    timerInterval = setInterval(updateTimer, 1000);
+                }
+            } else {
+                this.textContent = 'Start';
+                timerRunning = false;
+                clearInterval(timerInterval);
+            }
+        });
+
+        document.getElementById('resetTimer').addEventListener('click', function() {
+            clearInterval(timerInterval);
+            timerSeconds = 0;
+            timerRunning = false;
+            document.getElementById('startTimer').textContent = 'Start';
+            document.getElementById('timer').textContent = '00:00:00';
+            document.getElementById('timerInput').value = '';
+        });
+
+        function updateTimer() {
+            if (timerSeconds > 0) {
+                timerSeconds--;
+                const hours = Math.floor(timerSeconds / 3600);
+                const minutes = Math.floor((timerSeconds % 3600) / 60);
+                const seconds = timerSeconds % 60;
+                document.getElementById('timer').textContent = 
+                    `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+            } else {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                document.getElementById('startTimer').textContent = 'Start';
+                alert('Time is up!');
+            }
+        }
+
+        function pad(number) {
+            return number.toString().padStart(2, '0');
+        }
+
+        // Add this new code for popup functionality
+        const workoutDetails = {
+            'Yoga': {
+                emoji: '🧘‍♀️',
+                instructions: 'Follow the breathing pattern. Hold each pose for 30 seconds.'
+            },
+            'Cycling': {
+                emoji: '🚴‍♂️',
+                instructions: 'Maintain steady pace. Focus on form and breathing.'
+            },
+            'Cardio': {
+                emoji: '🏃‍♂️',
+                instructions: 'Keep your heart rate elevated. Stay hydrated.'
+            },
+            'Squats': {
+                emoji: '💪',
+                instructions: 'Keep your back straight. Go as deep as comfortable.'
+            },
+            'Push-Ups': {
+                emoji: '🏋️‍♂️',
+                instructions: 'Maintain proper form. Control your breathing.'
+            },
+            'Deadlift': {
+                emoji: '🏋️',
+                instructions: 'Keep your back straight. Lift with your legs.'
+            },
+            'Chest Press': {
+                emoji: '💪',
+                instructions: 'Control the movement. Focus on chest engagement.'
+            },
+            'Leg Press': {
+                emoji: '🦵',
+                instructions: 'Push through your heels. Control the descent.'
+            }
+        };
+
+        let popupTimerInterval;
+        let popupSeconds = 0;
+
+        function startWorkout(workoutName) {
+            const workout = workoutDetails[workoutName];
+            document.getElementById('workoutEmoji').textContent = workout.emoji;
+            document.getElementById('workoutTitle').textContent = workoutName;
+            document.getElementById('workoutInstructions').textContent = workout.instructions;
+            document.getElementById('popupTimer').textContent = '00:00:00';
+            
+            document.getElementById('popupOverlay').style.display = 'block';
+            document.getElementById('workoutPopup').style.display = 'block';
+            
+            // Reset and start popup timer
+            popupSeconds = 0;
+            clearInterval(popupTimerInterval);
+            popupTimerInterval = setInterval(updatePopupTimer, 1000);
+        }
+
+        function closePopup() {
+            document.getElementById('popupOverlay').style.display = 'none';
+            document.getElementById('workoutPopup').style.display = 'none';
+            clearInterval(popupTimerInterval);
+        }
+
+        function updatePopupTimer() {
+            popupSeconds++;
+            const hours = Math.floor(popupSeconds / 3600);
+            const minutes = Math.floor((popupSeconds % 3600) / 60);
+            const seconds = popupSeconds % 60;
+            document.getElementById('popupTimer').textContent = 
+                `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+        }
+
+        // Add click event listeners to all start buttons
+        document.querySelectorAll('.start-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const workoutName = this.parentElement.querySelector('h2').textContent;
+                startWorkout(workoutName);
+            });
+        });
+
+        // Close popup when clicking overlay
+        document.getElementById('popupOverlay').addEventListener('click', closePopup);
+    </script>
+</body>
+</html> 
